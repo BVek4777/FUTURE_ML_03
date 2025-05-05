@@ -20,13 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to handle sending messages
     async function sendMessage() {
         const messageText = userInput.value.trim();
-        if (messageText === '') return; // Don't send empty messages
+        if (messageText === '') return; // Avoid  sending empty messages
 
         // Add user message to chatbox
         addMessage('user', messageText);
         userInput.value = ''; // Clear input field
 
-        // Add a temporary "Bot is thinking..." message
+        // Add a temporary "Bot is thinking..."
         const thinkingMessage = document.createElement('div');
         thinkingMessage.classList.add('message', 'bot');
         thinkingMessage.textContent = 'Bot is thinking...';

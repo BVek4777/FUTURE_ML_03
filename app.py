@@ -8,7 +8,7 @@ import joblib
 from utils.load_data import data_loader
 import re
 
-# --- Configuration ---
+# Configuration 
 MODEL_DIR = 'model'
 EMBEDDINGS_PATH = os.path.join(MODEL_DIR, 'embeddings.joblib')
 DATA_PATH = os.path.join(MODEL_DIR, 'data.joblib')
@@ -16,7 +16,7 @@ DATA_PATH = os.path.join(MODEL_DIR, 'data.joblib')
 # Ensure model directory exists
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# --- Global Variables ---
+# Global Variables 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 embeddings = None
 questions = None
@@ -33,7 +33,7 @@ def is_exact_match(user_query, response_dict):
 # --- Flask App Initialization ---
 app = Flask(__name__)
 
-# --- Load Model from Disk ---
+# Load Model from Disk 
 def load_model():
     global embeddings, df, questions, answers, model_trained
     try:
@@ -47,7 +47,7 @@ def load_model():
         print(f"Model load failed: {e}")
         model_trained = False
 
-# --- Train the Sentence Transformer Model ---
+# Train the Sentence Transformer Model 
 def train_model():
     global embeddings, df, questions, answers, model_trained
     try:
@@ -84,7 +84,7 @@ def train_model():
         print(f"Training failed: {e}")
         return False, f"Training failed: {e}"
 
-# --- Flask Routes ---
+# Flask Routes 
 @app.route('/')
 def index():
     load_model()
@@ -106,13 +106,13 @@ def chat():
         if not user_query:
             return jsonify({'response': "Please enter a question."})
 
-        # --- Greeting Handling (no time-based greetings) ---
+        # Greeting Handling (no time-based greetings) 
         greetings = {
             "hi": "Hello! How can I assist you today?",
             "hello": "Hi there! How can I help you?",
             "hey": "Hey! What can I do for you?",
         }
-         # --- Farewell Handling ---
+         #  Farewell Handling 
         farewells = {
             "bye": "Goodbye! Have a great day!",
             "goodbye": "Take care! Feel free to return if you need more help.",
@@ -128,7 +128,7 @@ def chat():
         if farewell_response:
             return jsonify({'response': farewell_response})
 
-        # --- Semantic Search with SentenceTransformer ---
+        #  Semantic Search with SentenceTransformer 
         query_embedding = model.encode(user_query, convert_to_tensor=True)
         cosine_scores = util.cos_sim(query_embedding, embeddings)[0]
         best_idx = int(np.argmax(cosine_scores))
@@ -142,7 +142,7 @@ def chat():
         print(f"Chat error: {e}")
         return jsonify({'response': "An error occurred. Please try again later."}), 500
 
-# --- Main ---
+# Main 
 if __name__ == '__main__':
     load_model()
     app.run(debug=True)

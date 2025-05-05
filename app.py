@@ -5,7 +5,7 @@ import numpy as np
 from flask import Flask, render_template, request, jsonify
 from sentence_transformers import SentenceTransformer, util
 import joblib
-from load_data import data_loader
+from utils.load_data import data_loader
 import re
 
 # --- Configuration ---

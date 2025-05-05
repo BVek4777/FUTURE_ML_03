@@ -95,10 +95,33 @@ def chat():
     if not model_trained:
         return jsonify({'response': "Model not trained. Please train the model first."})
     try:
-        user_query = request.json.get('user_message', '').strip()
+        user_query = request.json.get('user_message', '').strip().lower()
         if not user_query:
             return jsonify({'response': "Please enter a question."})
 
+        # --- Greeting Handling (no time-based greetings) ---
+        greetings = {
+            "hi": "Hello! How can I assist you today?",
+            "hello": "Hi there! How can I help you?",
+            "hey": "Hey! What can I do for you?",
+        }
+        for greet in greetings:
+            if greet in user_query:
+                return jsonify({'response': greetings[greet]})
+
+        # --- Farewell Handling ---
+        farewells = {
+            "bye": "Goodbye! Have a great day!",
+            "goodbye": "Take care! Feel free to return if you need more help.",
+            "thank you": "You're welcome! Let me know if there's anything else.",
+            "thanks": "Glad I could help! Have a nice day.",
+            "see you": "See you next time!",
+        }
+        for farewell in farewells:
+            if farewell in user_query:
+                return jsonify({'response': farewells[farewell]})
+
+        # --- Semantic Search with SentenceTransformer ---
         query_embedding = model.encode(user_query, convert_to_tensor=True)
         cosine_scores = util.cos_sim(query_embedding, embeddings)[0]
         best_idx = int(np.argmax(cosine_scores))

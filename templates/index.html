@@ -11,11 +11,12 @@
         <h1>Customer Support Chatbot</h1>
         <div id="training-status">
             {% if not model_trained %}
-                <p>Model Status: Not Trained</p>
+                <p><strong>Model Status:</strong> <span style="color: red; font-size: 18px; font-weight: bold;">Not Trained</span></p>
                 <button id="train-button">Train using CSV Data</button>
                 <p id="training-message" class="message"></p>
             {% else %}
-                <p>Model Status: Ready</p>
+                <p><strong>Model Status:</strong> <span style="color: green; font-size: 18px; font-weight: bold;">Ready</span></p>
+                
             {% endif %}
         </div>
 

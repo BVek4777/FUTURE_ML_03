@@ -8,7 +8,7 @@ import joblib
 from utils.load_data import data_loader
 import re
 
-# Configuration 
+# Configuration to model and data paths
 MODEL_DIR = 'model'
 EMBEDDINGS_PATH = os.path.join(MODEL_DIR, 'embeddings.joblib')
 DATA_PATH = os.path.join(MODEL_DIR, 'data.joblib')

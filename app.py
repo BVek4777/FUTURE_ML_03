@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, jsonify
 from sentence_transformers import SentenceTransformer, util
 import joblib
 from load_data import data_loader
+import re
 
 # --- Configuration ---
 MODEL_DIR = 'model'
@@ -23,6 +24,12 @@ answers = None
 df = None
 model_trained = False
 
+# Function to check for exact matches in user query like hi or bye
+def is_exact_match(user_query, response_dict):
+    for key in response_dict:
+        if re.search(rf'\b{re.escape(key)}\b', user_query):
+            return response_dict[key]
+    return None
 # --- Flask App Initialization ---
 app = Flask(__name__)
 
@@ -105,11 +112,7 @@ def chat():
             "hello": "Hi there! How can I help you?",
             "hey": "Hey! What can I do for you?",
         }
-        for greet in greetings:
-            if greet in user_query:
-                return jsonify({'response': greetings[greet]})
-
-        # --- Farewell Handling ---
+         # --- Farewell Handling ---
         farewells = {
             "bye": "Goodbye! Have a great day!",
             "goodbye": "Take care! Feel free to return if you need more help.",
@@ -117,9 +120,13 @@ def chat():
             "thanks": "Glad I could help! Have a nice day.",
             "see you": "See you next time!",
         }
-        for farewell in farewells:
-            if farewell in user_query:
-                return jsonify({'response': farewells[farewell]})
+        greet_response = is_exact_match(user_query, greetings)
+        if greet_response:
+            return jsonify({'response': greet_response})
+
+        farewell_response = is_exact_match(user_query, farewells)
+        if farewell_response:
+            return jsonify({'response': farewell_response})
 
         # --- Semantic Search with SentenceTransformer ---
         query_embedding = model.encode(user_query, convert_to_tensor=True)

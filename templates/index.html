@@ -12,7 +12,7 @@
         <div id="training-status">
             {% if not model_trained %}
                 <p><strong>Model Status:</strong> <span style="color: red; font-size: 18px; font-weight: bold;">Not Trained</span></p>
-                <button id="train-button">Train using CSV Data</button>
+                <button id="train-button">Train on e-commerce support Q&A data</button>
                 <p id="training-message" class="message"></p>
             {% else %}
                 <p><strong>Model Status:</strong> <span style="color: green; font-size: 18px; font-weight: bold;">Ready</span></p>
@@ -21,7 +21,7 @@
         </div>
 
         <div id="chatbox">
-            <div class="message bot">Welcome!! I'm your support assistant. Enter your question to get or receive assistance based on past support queries..</div>
+            <div class="message bot">Welcome!! I'm your support assistant. Enter your question to get or receive assistance based on trained support queries..</div>
             </div>
 
         <div id="input-area">

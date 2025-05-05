@@ -90,22 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 trainingMessage.textContent = data.message;
                 trainingMessage.style.color = 'green';
                 // Update status visually and remove button
-                trainingStatusDiv.innerHTML = '<p>Model Status: Ready</p>';
-                 // Optionally, add a welcome message from the bot again
-                 // addMessage('bot', 'Model is now ready. How can I help you?');
+                trainingStatusDiv.innerHTML = ' <p><strong>Model Status:</strong> <span style="color: green; font-size: 18px; font-weight: bold;">Ready</span></p>';
+
+                
             } else {
                 trainingMessage.textContent = `Error: ${data.message}`;
                 trainingMessage.style.color = 'red';
                 trainButton.disabled = false; // Re-enable button on error
-                trainButton.textContent = 'Train using CSV Data';
+                trainButton.textContent = 'Train on e-commerce support Q&A data';
             }
 
         } catch (error) {
             console.error("Error triggering training:", error);
             trainingMessage.textContent = 'An error occurred while trying to train the model. Please check the console.';
             trainingMessage.style.color = 'red';
-            trainButton.disabled = false; // Re-enable button on error
-            trainButton.textContent = 'Train using CSV Data';
+            trainButton.disabled = false; 
+            trainButton.textContent = 'Train on e-commerce support Q&A data';
         }
     }
 
